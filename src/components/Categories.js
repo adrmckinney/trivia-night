@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import SelectDifficulty from './SelectDifficulty'
+// import SelectDifficulty from './SelectDifficulty'
 
-function Categories ({ categories, setSelectedCategory, selectDifficulty, setSelectDifficulty }) {
+function Categories ({ categories, setSelectedCategory, setDifficulty }) {
   console.log('categories', categories)
-  const [showDifficulties, setShowDifficulties] = useState(false)
+  // const [showDifficulties, setShowDifficulties] = useState(false)
   return (
     <>
       <div>
@@ -12,24 +12,12 @@ function Categories ({ categories, setSelectedCategory, selectDifficulty, setSel
           {categories.map((category) => (
             <button
               className='category-name' key={category.id}
-              onClick={() => { setSelectedCategory(category); setShowDifficulties(!showDifficulties) }}
+              onClick={() => { setSelectedCategory(category); setDifficulty(true) }}
             >
               {category.name}
             </button>
           ))}
         </div>
-      </div>
-      <div>
-        {/* {showDifficulties && (
-          <div>
-            <button>Easy</button>
-            <button>Medium</button>
-            <button>Hard</button>
-          </div>
-        )} */}
-        {showDifficulties
-          ? <SelectDifficulty difficulty={selectDifficulty} setSelectDifficulty={setSelectDifficulty} />
-          : <Categories handleBackToCategorySelection={() => setSelectDifficulty(null)} />}
       </div>
     </>
   )

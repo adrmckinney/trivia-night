@@ -3,22 +3,31 @@ import axios from 'axios'
 import './App.css'
 import Categories from './components/Categories'
 import SelectedCategory from './components/SelectedCategory'
-import SelectDifficulty from './components/SelectDifficulty'
+import Difficulty from './components/Difficulty'
+import Range from './components/Range'
 
 function App () {
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const [selectDifficulty, setSelectDifficulty] = useState(null)
+  const [difficulty, setDifficulty] = useState(false)
+  const [selectedDifficulty, setSelectedDifficulty] = useState(null)
+  const [range, setRange] = useState(false)
+  const [selectedRange, setSelectedRange] = useState(null)
 
   useEffect(() => {
-    console.log('useEffect IS CALLED')
     axios.get('https://opentdb.com/api_category.php')
-    console.log('DATA IS BEING FETCHED')
       .then(response => {
         console.log('data', response.data.trivia_categories)
         setCategories(response.data.trivia_categories)
       })
   }, [])
+
+  let gameSetup
+  if (difficulty) {
+    gameSetup = <Difficulty category={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} handleBackToCategories={() => setDifficulty(false)} />
+  } else {
+    gameSetup = <Categories categories={categories} setSelectedCategory={setSelectedCategory} setDifficulty={setDifficulty} />
+  }
 
   return (
     <div className='App'>
@@ -26,10 +35,7 @@ function App () {
         <h1 className='title'>Trivia Generator</h1>
       </header>
       <main className='main-container'>
-        {selectedCategory
-          ? <SelectedCategory category={selectedCategory} categories={categories} handleBackToCategorySelection={() => setSelectedCategory(null)} />
-          : <Categories categories={categories} difficulty={selectDifficulty} setSelectDifficulty={setSelectDifficulty} setSelectedCategory={setSelectedCategory} />}
-
+        {gameSetup}
       </main>
     </div>
   )
