@@ -49,6 +49,18 @@ header {
 }
 
 .category-name {
+  margin: 10px;
+
+}
+
+.handler-button {
   margin: 20px;
-  border: 2px solid;
+}
+
+.show-answers {
+  display: flex;
+}
+
+.hide-answers {
+  display: none;
 }

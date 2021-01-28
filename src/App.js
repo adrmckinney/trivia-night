@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './App.css'
 import Categories from './components/Categories'
-import SelectedCategory from './components/SelectedCategory'
+import PlayGame from './components/PlayGame'
 import Difficulty from './components/Difficulty'
 import Range from './components/Range'
+import { getCategoryList } from './api'
 
 function App () {
   const [categories, setCategories] = useState([])
@@ -13,6 +14,9 @@ function App () {
   const [selectedDifficulty, setSelectedDifficulty] = useState(null)
   const [range, setRange] = useState(false)
   const [selectedRange, setSelectedRange] = useState(null)
+  const [game, setGame] = useState(false)
+
+  console.log('selected range: ', selectedRange)
 
   useEffect(() => {
     axios.get('https://opentdb.com/api_category.php')
@@ -22,9 +26,19 @@ function App () {
       })
   }, [])
 
+  // useEffect(() => {
+  //   getCategoryList()
+  //   setCategories()
+  // }, [])
+
   let gameSetup
-  if (difficulty) {
-    gameSetup = <Difficulty category={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} handleBackToCategories={() => setDifficulty(false)} />
+
+  if (difficulty && range && game) {
+    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} handleToQuit={() => { setRange(false); setDifficulty(false); setGame(false) }} />
+  } else if (difficulty && range) {
+    gameSetup = <Range selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} setRange={setRange} setSelectedRange={setSelectedRange} setGame={setGame} handleBackToDifficulty={() => setRange(false)} />
+  } else if (difficulty) {
+    gameSetup = <Difficulty selectedCategory={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} setRange={setRange} handleBackToCategories={() => setDifficulty(false)} />
   } else {
     gameSetup = <Categories categories={categories} setSelectedCategory={setSelectedCategory} setDifficulty={setDifficulty} />
   }

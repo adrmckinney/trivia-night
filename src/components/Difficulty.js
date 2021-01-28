@@ -1,13 +1,13 @@
-function Difficulty ({ difficulty, selectedDifficulty, setSelectedDifficulty, setDifficulty, handleBackToCategories, selectedCategory }) {
+function Difficulty ({ difficulty, setSelectedDifficulty, handleBackToCategories, selectedCategory, setRange }) {
   return (
     <div>
-      <div>{selectedCategory}</div>
+      <div className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray'>{selectedCategory.name}</div>
       <div>
-        <button onClick={() => setSelectedDifficulty('easy')}>Easy</button>
-        <button onClick={() => setSelectedDifficulty('medium')}>Medium</button>
-        <button onClick={() => setSelectedDifficulty('hard')}>Hard</button>
+        <button className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray' onClick={() => { setSelectedDifficulty('easy'); setRange(true) }}>Easy</button>
+        <button className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray' onClick={() => { setSelectedDifficulty('medium'); setRange(true) }}>Medium</button>
+        <button className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray' onClick={() => { setSelectedDifficulty('hard'); setRange(true) }}>Hard</button>
         <button
-          className='go-to-categories-button'
+          className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
           onClick={handleBackToCategories}
         >
           Go back to category list
