@@ -1,7 +1,6 @@
 function Difficulty ({ difficulty, setSelectedDifficulty, handleBackToCategories, selectedCategory, setRange }) {
   return (
     <div>
-      <div className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray'>{selectedCategory.name}</div>
       <div>
         <button className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray' onClick={() => { setSelectedDifficulty('easy'); setRange(true) }}>Easy</button>
         <button className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray' onClick={() => { setSelectedDifficulty('medium'); setRange(true) }}>Medium</button>

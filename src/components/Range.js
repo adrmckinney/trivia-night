@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-function Range ({ setGame, setSelectedRange, selectedCategory, selectedDifficulty, handleBackToDifficulty }) {
+function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, selectedDifficulty, handleBackToDifficulty }) {
   const [possibleCount, setPossibleCount] = useState(0)
   const [numOfQuestions, setNumOfQuestions] = useState(0)
 
@@ -23,10 +23,10 @@ function Range ({ setGame, setSelectedRange, selectedCategory, selectedDifficult
         console.log('data', data)
         console.log('search difficulty', searchDifficulty)
         console.log('data + hard level', data.total_hard_question_count)
-        console.log('data + search', data.searchDifficulty)
+        console.log('data + search', data[searchDifficulty])
 
         const possibleTotalCount = []
-        const totalCount = data.total_hard_question_count
+        const totalCount = data[searchDifficulty]
         if (totalCount > 50) {
           possibleTotalCount.push(50)
         } else {
@@ -52,10 +52,8 @@ function Range ({ setGame, setSelectedRange, selectedCategory, selectedDifficult
   return (
     <div>
       <div>
-        <div className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray'>{selectedCategory.name}</div>
-        <div className='f6 link dim br-pill ph3 pv2 mb2 dib white bg-mid-gray'>{selectedDifficulty}</div>
         <div>How many questions would you like?</div>
-        <select onChange={(event) => setSelectedRange(event.currentTarget.value)}>
+        <select value={selectedRange} onChange={(event) => setSelectedRange(event.currentTarget.value)}>
           <DisplayPossibleNumberOfQuestions />
 
         </select>
