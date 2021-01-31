@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, selectedDifficulty, handleBackToDifficulty }) {
+function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, selectedDifficulty, handleBackToDifficulty, setNavigation }) {
   const [possibleCount, setPossibleCount] = useState(0)
   const [numOfQuestions, setNumOfQuestions] = useState(0)
 
@@ -51,21 +51,23 @@ function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, se
 
   return (
     <div>
+      <div className='screen-title-back-button-container'>
+        <h3 className='f3 f2-m f1-l fw2 black-90 mv3'>Select the Number of Questions</h3>
+        <button
+          className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
+          onClick={() => setNavigation('setting-difficulty')}
+        >
+          Go back to difficulty
+        </button>
+      </div>
       <div>
-        <div>How many questions would you like?</div>
         <select value={selectedRange} onChange={(event) => setSelectedRange(event.currentTarget.value)}>
           <DisplayPossibleNumberOfQuestions />
 
         </select>
       </div>
       <div>
-        <button onClick={() => setGame(true)}>Play Game</button>
-        <button
-          className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
-          onClick={handleBackToDifficulty}
-        >
-          Go back to difficulty
-        </button>
+        <button onClick={() => setNavigation('playing-game')}>Play Game</button>
       </div>
     </div>
 

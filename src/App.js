@@ -11,20 +11,19 @@ import { getCategoryList } from './api'
 import GameTracker from './components/GameTracker'
 
 function App () {
-  const [numberOfTeams, setNumberOfTeams] = useState(0)
-  const [teamNames, setTeamNames] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [difficulty, setDifficulty] = useState(false)
   const [selectedDifficulty, setSelectedDifficulty] = useState(null)
   const [range, setRange] = useState(false)
   const [selectedRange, setSelectedRange] = useState(1)
-  const [game, setGame] = useState(false)
+  const [teams, setTeams] = useState([])
+  const [navigation, setNavigation] = useState('home-screen')
 
   // ******** debugging station ******************
 
   console.log('selected range: ', selectedRange)
-  console.log('number of teams', numberOfTeams)
+  console.log('number of teams', teams)
 
   // ******** debugging station ******************
 
@@ -43,21 +42,21 @@ function App () {
   let gameSetup
   let gameTracker
 
-  if (numberOfTeams && difficulty && range && game) {
-    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} handleToQuit={() => { setRange(false); setDifficulty(false); setGame(false) }} />
-    gameTracker = <GameTracker selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} />
-  } else if (numberOfTeams && difficulty && range) {
-    gameSetup = <Range selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} setRange={setRange} selectedRange={selectedRange} setSelectedRange={setSelectedRange} setGame={setGame} handleBackToDifficulty={() => setRange(false)} />
-    gameTracker = <GameTracker selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} />
-  } else if (numberOfTeams && difficulty) {
-    gameSetup = <Difficulty selectedCategory={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} setRange={setRange} handleBackToCategories={() => setDifficulty(false)} />
-    gameTracker = <GameTracker selectedCategory={selectedCategory} />
-  } else if (numberOfTeams) {
-    gameSetup = <Categories categories={categories} setSelectedCategory={setSelectedCategory} setDifficulty={setDifficulty} />
-  } else if (numberOfTeams && teamNames) {
-    gameSetup = <Names numberOfTeams={numberOfTeams} setTeamNames={setTeamNames} />
+  if (navigation === 'playing-game') {
+    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} teams={teams} setNavigation={setNavigation} />
+    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} />
+  } else if (navigation === 'setting-range') {
+    gameSetup = <Range selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} setRange={setRange} selectedRange={selectedRange} setSelectedRange={setSelectedRange} setNavigation={setNavigation} />
+    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} selectedDifficulty={selectedDifficulty} />
+  } else if (navigation === 'setting-difficulty') {
+    gameSetup = <Difficulty selectedCategory={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} setRange={setRange} setNavigation={setNavigation} />
+    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} />
+  } else if (navigation === 'selecting-category') {
+    gameSetup = <Categories categories={categories} setSelectedCategory={setSelectedCategory} setDifficulty={setDifficulty} setNavigation={setNavigation} />
+  } else if (navigation === 'setting-names') {
+    gameSetup = <Names teams={teams} setTeams={setTeams} setNavigation={setNavigation} />
   } else {
-    gameSetup = <HomeScreen numberOfTeams={numberOfTeams} setNumberOfTeams={setNumberOfTeams} />
+    gameSetup = <HomeScreen teams={teams} setTeams={setTeams} setNavigation={setNavigation} />
   }
 
   return (

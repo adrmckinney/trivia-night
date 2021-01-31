@@ -1,12 +1,17 @@
 import { useState } from 'react'
 
-function HomeScreen ({ setNumberOfTeams }) {
-  const [value, setValue] = useState('')
-
+function HomeScreen ({ setTeams, setNavigation }) {
+  const [numberOfTeams, setNumberOfTeams] = useState(1)
   const handleSubmit = (event) => {
     event.preventDefault()
-    setNumberOfTeams(value)
+    const output = []
+    for (let i = 0; i < numberOfTeams; i++) {
+      output.push({ name: '', score: 0 })
+    }
+    setTeams(output)
+    setNavigation('setting-names')
   }
+
   return (
     <div>
       <h1>Welcome to Trivia Night</h1>
@@ -15,8 +20,8 @@ function HomeScreen ({ setNumberOfTeams }) {
           <label>How many teams?</label>
           <input
             type='number'
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
+            value={numberOfTeams}
+            onChange={(event) => setNumberOfTeams(event.target.value)}
           />
           <input type='submit' value='Submit' />
         </form>

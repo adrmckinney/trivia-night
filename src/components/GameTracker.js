@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import Timer from './Timer'
 
-function GameTracker ({ selectedCategory, selectedDifficulty, selectedRange }) {
+function GameTracker ({ selectedCategory, selectedDifficulty, selectedRange, teams }) {
   const [isShown, setIsShown] = useState(false)
 
   function toggleTagDisplay () {
     setIsShown(!isShown)
+  }
+
+  function displayResult (event, idx) {
+    console.log('display result', event.target.value, idx)
   }
 
   return (
@@ -17,6 +21,19 @@ function GameTracker ({ selectedCategory, selectedDifficulty, selectedRange }) {
       </div>
       <div>
         <Timer />
+      </div>
+      <div className='team-score-container'>
+        <div className='team-score-header'>
+          <h4>Team</h4>
+          <h4>Score</h4>
+        </div>
+        {teams.map((team, idx) => (
+          <div className='team-score-output' key={`display-${team.name}-${idx}`}>
+            <div>{team.name}</div>
+            <div>{team.score}</div>
+          </div>
+        ))}
+
       </div>
     </div>
   )

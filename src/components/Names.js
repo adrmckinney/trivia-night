@@ -1,38 +1,56 @@
 import { useState } from 'react'
 
-function Names ({ numberOfTeams, setTeamNames }) {
-  const [value, setValue] = useState([])
+function Names ({ teams, setTeams, setNavigation }) {
+  const [value, setValue] = useState({})
   console.log('value array', value)
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    setTeamNames(value)
+    setNavigation('selecting-category')
   }
 
-  function SetNumOfEntryFields () {
-    const numArray = []
-    for (let idx = 0; idx < numberOfTeams; idx++) {
-      numArray.push(
-        <form key={idx} onSubmit={handleSubmit}>
-          <label>Enter Team Name</label>
-          <input
-            type='text'
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <input type='submit' value='Submit Name' />
-        </form>
-      )
+  function onNameChange (event, idx) {
+    console.log('name change', event.target.value, idx)
+    const newTeams = [
+      ...teams
+    ]
+    newTeams[idx] = {
+      ...newTeams[idx],
+      name: event.target.value
     }
-    return numArray
+
+    setTeams(newTeams)
   }
 
   return (
     <div>
-      <div>Enter your team names</div>
-      <div>
-        <SetNumOfEntryFields />
+      <div className='screen-title-back-button-container'>
+        <h3 className='f3 f2-m f1-l fw2 black-90 mv3'>Enter Your Team Names</h3>
+        <button
+          className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
+          onClick={() => setNavigation('home-screen')}
+        >
+          Go back to home screen
+        </button>
+      </div>
+      <div className='page-content-container'>
+        {teams.map((team, idx) => (
+          <form className='team-entry-field' key={`name-form-${idx}`} onSubmit={handleSubmit}>
+            <input
+              type='text'
+              value={team.name}
+              placeholder={`TEAM ${idx + 1}`}
+              required
+              onChange={(event) => onNameChange(event, idx)}
+            />
+          </form>
+
+        ))}
+        <input
+          type='submit' value='Done' className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
+          onClick={() => handleSubmit}
+        />
       </div>
 
     </div>

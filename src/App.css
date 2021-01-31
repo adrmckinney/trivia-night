@@ -1,7 +1,7 @@
 * {
   margin: 0;
   box-sizing: border-box;
-  height: auto;
+  /* height: auto; */
 }
 
 /* html {
@@ -91,7 +91,7 @@ header {
   display: block;
 }
 
-..difficulty-tag-hide {
+.difficulty-tag-hide {
   display: none;
 }
 
@@ -146,4 +146,93 @@ header {
   background-color: #3151ff;
   border: 1px solid #152684;
   color: white;
+}
+
+.answers-radio-container {
+  display: flex;
+}
+
+.screen-title-back-button-container {
+  display: flex;
+}
+
+.page-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.team-entry-field {
+  margin: 10px;
+  padding: 10px;
+}
+
+.nav-submit-btns-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-btn-container {
+  display: flex;
+}
+
+
+.game-play-container {
+  width: 70%;
+}
+
+.answer-container {
+  width: 50%;
+}
+
+.each-answer {
+  margin: 20px 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.team-name {
+  margin: 10px 0 -10px 0;
+}
+
+.checkboxes {
+  margin: 20px 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.submit-answers-btn {
+
+}
+
+.team-score-container {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  
+}
+
+.team-score-header {
+  display: flex;
+  justify-content: space-around;
+}
+
+.team-score-output {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.reveal-correct-answer {
+  background-color: hotpink;
 }
