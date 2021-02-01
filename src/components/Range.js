@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 
 function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, selectedDifficulty, handleBackToDifficulty, setNavigation }) {
   const [possibleCount, setPossibleCount] = useState(0)
-  const [numOfQuestions, setNumOfQuestions] = useState(0)
 
   useEffect(() => {
     axios.get(`https://opentdb.com/api_count.php?category=${selectedCategory.id}`)
@@ -41,7 +40,7 @@ function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, se
     for (let num = 1; num <= possibleCount; num++) {
       numArray.push(<option key={num} value={num}>{num}</option>)
     }
-    console.log('numofqs', numOfQuestions)
+
     console.log('numArray:', numArray)
 
     return numArray
