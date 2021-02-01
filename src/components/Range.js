@@ -34,7 +34,7 @@ function Range ({ setGame, selectedRange, setSelectedRange, selectedCategory, se
         }
         setPossibleCount(possibleTotalCount)
       })
-  }, [])
+  }, [selectedCategory, selectedDifficulty])
 
   function DisplayPossibleNumberOfQuestions () {
     const numArray = []

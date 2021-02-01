@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Timer from './Timer'
 
 function randomize (activeQuestionSet) {
   const correctAnswer = decodeURIComponent(activeQuestionSet.correct_answer)
@@ -55,7 +54,7 @@ function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams,
         const data = response.data.results
         setQuestionSets(data)
       })
-  }, [])
+  }, [selectedCategory, selectedDifficulty, selectedRange])
 
   useEffect(() => {
     if (activeQuestionSet) {

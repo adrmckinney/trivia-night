@@ -13,10 +13,10 @@ function HomeScreen ({ setTeams, setNavigation }) {
   }
 
   return (
-    <div>
-      <h1>Welcome to Trivia Night</h1>
+    <div className='home-screen-container'>
+      <h1 className='f3 f2-m f1-l fw2 black-90 mv3'>Welcome to Trivia Night</h1>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='home-form'>
           <label>How many teams?</label>
           <input
             type='number'

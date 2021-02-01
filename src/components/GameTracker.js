@@ -1,16 +1,15 @@
-import { useState } from 'react'
 import Timer from './Timer'
 
 function GameTracker ({ selectedCategory, selectedDifficulty, selectedRange, teams, navigation }) {
-  const [isShown, setIsShown] = useState(false)
+  // const [isShown, setIsShown] = useState(false)
 
-  function toggleTagDisplay () {
-    setIsShown(!isShown)
-  }
+  // function toggleTagDisplay () {
+  //   setIsShown(!isShown)
+  // }
 
-  function displayResult (event, idx) {
-    // console.log('display result', event.target.value, idx)
-  }
+  // function displayResult (event, idx) {
+  //   // console.log('display result', event.target.value, idx)
+  // }
 
   return (
     <div>
