@@ -38,7 +38,7 @@ function updateScores (teams, setTeams, correctAnswer, currentAnswers) {
   setTeams(newTeams)
 }
 
-function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams, setTeams, setNavigation, setIsActive }) {
+function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams, setTeams, setNavigation, setIsActive, setSelectedCategory, setSelectedRange, setSelectedDifficulty }) {
   const [questionSets, setQuestionSets] = useState([])
   const [questionSetPosition, setQuestionSetPosition] = useState(0)
   const [currentAnswers, setCurrentAnswers] = useState({})
@@ -91,7 +91,7 @@ function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams,
         <h3 className='f3 f2-m f1-l fw2 black-90 mv3'>Play Game</h3>
         <button
           className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
-          onClick={() => setNavigation('home-screen')}
+          onClick={() => { setSelectedCategory(null); setSelectedRange(1); setSelectedDifficulty(null); setTeams = ([]); setNavigation('home-screen') }}
         >
           Restart Game
         </button>

@@ -33,13 +33,16 @@ function Names ({ teams, setTeams, setNavigation }) {
       <div className='page-content-container'>
         {teams.map((team, idx) => (
           <form className='team-entry-field' key={`name-form-${idx}`} onSubmit={handleSubmit}>
-            <input
-              type='text'
-              value={team.name}
-              placeholder={`TEAM ${idx + 1}`}
-              required
-              onChange={(event) => onNameChange(event, idx)}
-            />
+            <span className='input'>
+              <input
+                type='text'
+                value={team.name}
+                placeholder={`TEAM ${idx + 1}`}
+                required
+                onChange={(event) => onNameChange(event, idx)}
+              />
+            </span>
+            <span />
           </form>
 
         ))}

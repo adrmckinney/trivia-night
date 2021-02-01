@@ -39,10 +39,11 @@ function App () {
 
   let gameSetup
 
+
   if (navigation === 'end-of-game') {
-    <EndOfGame teams={teams} setSelectedCategory={setSelectedCategory} setSelectedRange={setSelectedRange} setSelectedDifficulty={setSelectedDifficulty} setTeams={setTeams} />
+    gameSetup = <EndOfGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} teams={teams} setSelectedCategory={setSelectedCategory} setSelectedRange={setSelectedRange} setSelectedDifficulty={setSelectedDifficulty} setTeams={setTeams} setNavigation={setNavigation} />
   } else if (navigation === 'playing-game') {
-    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} teams={teams} setTeams={setTeams} setNavigation={setNavigation} />
+    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} teams={teams} setTeams={setTeams} setNavigation={setNavigation} setSelectedCategory={setSelectedCategory} setSelectedRange={setSelectedRange} setSelectedDifficulty={setSelectedDifficulty} />
   } else if (navigation === 'setting-range') {
     gameSetup = <Range selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} setSelectedRange={setSelectedRange} setNavigation={setNavigation} />
   } else if (navigation === 'setting-difficulty') {
@@ -56,7 +57,8 @@ function App () {
   }
 
   let gameTracker
-  if (selectedCategory) {
+
+  if (navigation === 'selecting-category' || navigation === 'setting-difficulty' || navigation === 'setting-range' || navigation === 'playing-game') {
     gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} navigation={navigation} />
   }
 
