@@ -319,3 +319,21 @@ header {
   font-size: 30px;
   margin: 20px;
 }
+
+.home-screen-title {
+  font-size: 80px;
+}
+
+.home-screen-label {
+  margin: 10px;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.home-screen-input {
+  margin: 10px;
+}
+
+.home-screen-btn {
+  margin: 10px;
+}
