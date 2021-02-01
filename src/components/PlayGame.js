@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import Timer from './Timer'
 
 function randomize (activeQuestionSet) {
   const correctAnswer = decodeURIComponent(activeQuestionSet.correct_answer)
   const incorrectAnswers = decodeURIComponent(activeQuestionSet.incorrect_answers).split(',')
   const allAnswers = incorrectAnswers.concat(correctAnswer)
-  console.log('all answers before random', allAnswers)
+  // console.log('all answers before random', allAnswers)
 
   for (let i = allAnswers.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * i)
@@ -13,20 +14,38 @@ function randomize (activeQuestionSet) {
     allAnswers[i] = allAnswers[j]
     allAnswers[j] = temp
   }
-  console.log('all answers after random', allAnswers)
+  // console.log('all answers after random', allAnswers)
 
   return allAnswers
 }
 
-function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams, setNavigation }) {
+function updateScores (teams, setTeams, correctAnswer, currentAnswers) {
+  const newTeams = [
+    ...teams
+  ]
+
+  for (const teamName of Object.keys(currentAnswers)) {
+    const teamAnswer = currentAnswers[teamName]
+    const idx = teams.findIndex((team) => team.name === teamName)
+    console.log('index of team', teamName, idx, teamAnswer, correctAnswer)
+    if (idx > -1 && teamAnswer === correctAnswer) {
+      newTeams[idx] = {
+        ...newTeams[idx],
+        score: newTeams[idx].score + 1
+      }
+    }
+  }
+  setTeams(newTeams)
+}
+
+function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams, setTeams, setNavigation, setIsActive }) {
   const [questionSets, setQuestionSets] = useState([])
   const [questionSetPosition, setQuestionSetPosition] = useState(0)
   const [currentAnswers, setCurrentAnswers] = useState({})
   const [randomAnswers, setRandomAnswers] = useState([])
-  const [correctAnswer, setCorrectAnswer] = useState([])
-  const [revealCorrectAnswer, setRevealCorrectAnswer] = useState([])
+  const [answerSubmitted, setAnswerSubmitted] = useState(false)
 
-  console.log('teams from play game', teams)
+  // console.log('teams from play game', teams)
   const activeQuestionSet = questionSets[questionSetPosition]
 
   useEffect(() => {
@@ -42,9 +61,6 @@ function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams,
     if (activeQuestionSet) {
       const newAnswers = randomize(activeQuestionSet)
       setRandomAnswers(newAnswers)
-
-      const correctAnswer = decodeURIComponent(activeQuestionSet.correct_answer)
-      setCorrectAnswer(correctAnswer)
     }
   }, [activeQuestionSet])
 
@@ -52,37 +68,22 @@ function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams,
     return 'loading'
   }
 
+  const correctAnswer = decodeURIComponent(activeQuestionSet.correct_answer)
+
   function selectAnswerForTeam (teamName, answer) {
-    console.log('select answer for team', teamName, answer)
+    // console.log('select answer for team', teamName, answer)
     setCurrentAnswers({
       ...currentAnswers,
       [teamName]: answer
     })
   }
 
-  // function showCorrectAnswer (activeQuestionSet) {
-  //   const correctAnswer = decodeURIComponent(activeQuestionSet.correct_answer)
-  //   setCorrectAnswer(correctAnswer)
-  // }
-
   // debugger station
-  console.log('active set', activeQuestionSet)
-  console.log('correct answer state debugger', correctAnswer)
-  console.log('reveal answer set to:', revealCorrectAnswer)
-  console.log('random Answers in debugger', randomAnswers)
-
-  function findCorrectAnswer () {
-    console.log('RANDOM Answers in find function', randomAnswers)
-    console.log('CORRECT Answer state in find function', correctAnswer)
-
-    randomAnswers.forEach((answer) => {
-      if (answer === correctAnswer) {
-        console.log('LOOP of correct answer', answer)
-        setRevealCorrectAnswer(answer)
-      }
-    })
-  }
-  // findCorrectAnswer()
+  console.log('correct Answer', correctAnswer)
+  // console.log('correct answer state debugger', correctAnswer)
+  // console.log('correct answer state debugger', activeQuestionSet)
+  // console.log('reveal answer set to:', )
+  // console.log('random Answers in debugger', randomAnswers)
 
   return (
     <div>
@@ -94,27 +95,31 @@ function PlayGame ({ selectedCategory, selectedDifficulty, selectedRange, teams,
         >
           Restart Game
         </button>
+        <button
+          className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button'
+          onClick={() => setNavigation('end-of-game')}
+        >
+          End Game
+        </button>
       </div>
       <div className='page-content-container'>
         <div className='nav-submit-btns-container'>
           <div className='nav-btn-container'>
-            <button disabled={questionSetPosition === 0} onClick={() => setQuestionSetPosition(questionSetPosition - 1)}>Previous Question</button>
-            {/* <button disabled={questionSetPosition === questionSets.length - 1} onClick={() => setQuestionSetPosition(questionSetPosition + 1)}>Submit Answers</button> */}
-            <button disabled={questionSetPosition === questionSets.length - 1} onClick={() => findCorrectAnswer()}>Submit Answers</button>
-
+            <button disabled={questionSetPosition === 0} className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button' onClick={() => setQuestionSetPosition(questionSetPosition - 1)}>Previous Question</button>
+            <button disabled={answerSubmitted} className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button' onClick={() => { updateScores(teams, setTeams, correctAnswer, currentAnswers); setAnswerSubmitted(true) }}>Submit Answers</button>
+            <button disabled={questionSetPosition === questionSets.length - 1} className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button' onClick={() => { setQuestionSetPosition(questionSetPosition + 1); setCurrentAnswers({}); setAnswerSubmitted(false) }}>Next Question</button>
           </div>
-          <input type='submit' value='Submit Answers' className='f6 link dim br-pill ba bw2 ph3 pv2 mb2 dib light-purple handler-button submit-answers-btn' />
         </div>
         <div>
-          <article className='center mw5 mw6-ns br3 hidden ba b--black-10 mv4' key={activeQuestionSet.question}>
-            <h1 className='f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3'>{decodeURIComponent(activeQuestionSet.question)}
+          <article className='main-game-card center mw5 mw6-ns br3 hidden ba b--black-10 mv4' key={activeQuestionSet.question}>
+            <h1 className='f4 bg-near-white br3 br--top light-purple-60 mv0 pv2 ph3'>{decodeURIComponent(activeQuestionSet.question)}
             </h1>
             <div className='answers-radio-container'>
               <div className='answer-container pa3 bt b--black-10'>
                 {randomAnswers.map((answer) => (
                   <p
                     key={answer}
-                    className={`revealCorrectAnswer ${revealCorrectAnswer ? 'reveal-correct-answer each-answer f6 f5-ns lh-copy measure' : 'each-answer f6 f5-ns lh-copy measure'}`}
+                    className={`${answerSubmitted && answer === correctAnswer ? 'reveal-correct-answer each-answer f6 f5-ns lh-copy measure' : 'each-answer f6 f5-ns lh-copy measure'}`}
                   >
                     {answer}
                   </p>

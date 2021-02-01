@@ -1,7 +1,5 @@
 
 function Categories ({ categories, setSelectedCategory, setDifficulty, setNavigation }) {
-  console.log('categories', categories)
-  // const [showDifficulties, setShowDifficulties] = useState(false)
   return (
     <>
       <div>

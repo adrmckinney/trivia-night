@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import './App.css'
 import HomeScreen from './components/HomeScreen'
 import Names from './components/Names'
@@ -9,21 +8,20 @@ import Difficulty from './components/Difficulty'
 import Range from './components/Range'
 import { getCategoryList } from './api'
 import GameTracker from './components/GameTracker'
+import EndOfGame from './components/EndOfGame'
 
 function App () {
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const [difficulty, setDifficulty] = useState(false)
   const [selectedDifficulty, setSelectedDifficulty] = useState(null)
-  const [range, setRange] = useState(false)
   const [selectedRange, setSelectedRange] = useState(1)
   const [teams, setTeams] = useState([])
   const [navigation, setNavigation] = useState('home-screen')
 
   // ******** debugging station ******************
 
-  console.log('selected range: ', selectedRange)
-  console.log('number of teams', teams)
+  // console.log('selected range: ', selectedRange)
+  // console.log('number of teams', teams)
 
   // ******** debugging station ******************
 
@@ -40,29 +38,32 @@ function App () {
   }, [])
 
   let gameSetup
-  let gameTracker
 
-  if (navigation === 'playing-game') {
-    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} teams={teams} setNavigation={setNavigation} />
-    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} />
+  if (navigation === 'end-of-game') {
+    <EndOfGame teams={teams} setSelectedCategory={setSelectedCategory} setSelectedRange={setSelectedRange} setSelectedDifficulty={setSelectedDifficulty} setTeams={setTeams} />
+  } else if (navigation === 'playing-game') {
+    gameSetup = <PlayGame selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} teams={teams} setTeams={setTeams} setNavigation={setNavigation} />
   } else if (navigation === 'setting-range') {
-    gameSetup = <Range selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} setRange={setRange} selectedRange={selectedRange} setSelectedRange={setSelectedRange} setNavigation={setNavigation} />
-    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} selectedDifficulty={selectedDifficulty} />
+    gameSetup = <Range selectedCategory={selectedCategory} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} setSelectedRange={setSelectedRange} setNavigation={setNavigation} />
   } else if (navigation === 'setting-difficulty') {
-    gameSetup = <Difficulty selectedCategory={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} setRange={setRange} setNavigation={setNavigation} />
-    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} />
+    gameSetup = <Difficulty selectedCategory={selectedCategory} setSelectedDifficulty={setSelectedDifficulty} setNavigation={setNavigation} />
   } else if (navigation === 'selecting-category') {
-    gameSetup = <Categories categories={categories} setSelectedCategory={setSelectedCategory} setDifficulty={setDifficulty} setNavigation={setNavigation} />
+    gameSetup = <Categories categories={categories} setSelectedCategory={setSelectedCategory} setNavigation={setNavigation} />
   } else if (navigation === 'setting-names') {
     gameSetup = <Names teams={teams} setTeams={setTeams} setNavigation={setNavigation} />
   } else {
     gameSetup = <HomeScreen teams={teams} setTeams={setTeams} setNavigation={setNavigation} />
   }
 
+  let gameTracker
+  if (selectedCategory) {
+    gameTracker = <GameTracker selectedCategory={selectedCategory} teams={teams} selectedDifficulty={selectedDifficulty} selectedRange={selectedRange} navigation={navigation} />
+  }
+
   return (
     <div className='App'>
       <header>
-        <h1 className='title'>Trivia Generator</h1>
+        <h1 className='title'>Trivia Night</h1>
       </header>
       <main className='main-container'>
         <div className='game-play-container'>

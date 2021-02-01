@@ -2,6 +2,7 @@
 // Adapted for my own needs
 
 import { useState, useEffect } from 'react'
+import GameTracker from './GameTracker'
 
 function Timer () {
   const [seconds, setSeconds] = useState(0)
@@ -12,7 +13,7 @@ function Timer () {
   }
 
   function reset () {
-    setSeconds(60)
+    setSeconds(30)
     setIsActive(false)
   }
 

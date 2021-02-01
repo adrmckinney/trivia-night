@@ -1,9 +1,5 @@
-import { useState } from 'react'
 
 function Names ({ teams, setTeams, setNavigation }) {
-  const [value, setValue] = useState({})
-  console.log('value array', value)
-
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -11,7 +7,7 @@ function Names ({ teams, setTeams, setNavigation }) {
   }
 
   function onNameChange (event, idx) {
-    console.log('name change', event.target.value, idx)
+    // console.log('name change', event.target.value, idx)
     const newTeams = [
       ...teams
     ]
